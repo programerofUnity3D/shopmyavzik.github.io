@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Myavzik Shop</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel-alt: #1f2937;
+        --card: #f8fafc;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --accent: #f59e0b;
+        --accent-strong: #f97316;
+        --border: rgba(148, 163, 184, 0.2);
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #020817 0%, var(--bg) 45%, #111827 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .header h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2.2rem, 4vw, 4rem);
+        letter-spacing: 0.04em;
+      }
+
+      .header p {
+        margin: 0 auto;
+        max-width: 760px;
+        font-size: 1.05rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .category-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin: 28px 0 42px;
+      }
+
+      .category-nav a {
+        padding: 10px 16px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--text);
+        text-decoration: none;
+        background: rgba(31, 41, 55, 0.8);
+        font-weight: 700;
+      }
+
+      .category-nav a:hover,
+      .category-nav a:focus-visible {
+        border-color: var(--accent);
+        background: #263449;
+      }
+
+      .category-section {
+        margin-top: 42px;
+        scroll-margin-top: 24px;
+      }
+
+      .category-heading {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin: 0 0 18px;
+      }
+
+      .category-heading h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+      }
+
+      .category-count {
+        color: var(--muted);
+      }
+
+      .shop-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #0f172a;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 18px;
+        padding: 16px 16px 14px;
+        text-decoration: none;
+        box-shadow: var(--shadow);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        min-height: 320px;
+      }
+
+      .card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: contain;
+        background: #fff;
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+
+      .card .link-btn {
+        margin-top: auto;
+      }
+
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.4);
+      }
+
+      .badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        border-radius: 999px;
+        color: white;
+        padding: 6px 10px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 12px;
+      }
+
+      .model-name {
+        display: block;
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .card small {
+        display: block;
+        color: #334155;
+        margin-bottom: 14px;
+      }
+
+      .link-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #0f172a;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+
+      .link-btn:hover,
+          .link-btn:focus-visible {
+        background: #1e293b;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .shop-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Myavzik Shop</h1>
+        <p>Browse here my creations. Message the bot to check out.</p>
+      </header>
+
+      <nav class="category-nav" id="categoryNav" aria-label="Browse categories"></nav>
+      <main id="categories" aria-live="polite"></main>
+    </div>
+
+    <script>
+      const categories = [
+        { name: 'Cat', items: [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 28, 41, 44, 46, 47, 50, 51, 52, 56, 60, 69, 71, 73, 78, 83] },
+        { name: 'Dog', items: [16, 17, 18, 19, 20, 21, 24, 31, 37] },
+        { name: 'Roblox', items: [59, 61, 62, 63, 77] },
+        { name: 'Minecraft', items: [4, 22, 53, 54, 55, 57, 58, 70, 72, 75, 76, 82] },
+        { name: 'Goose', items: [26, 27, 29, 32, 33, 34] },
+        { name: 'Other stuff', items: [23, 25, 30, 35, 36, 38, 39, 40, 42, 43, 45, 49, 64, 65, 66, 67, 68, 74, 79, 80, 81] },
+        { name: 'Customizeable', items: [48] }
+      ];
+
+      const categoryNav = document.getElementById('categoryNav');
+      const categoriesContainer = document.getElementById('categories');
+
+      categories.forEach((category) => {
+        const slug = category.name.toLowerCase().replaceAll(' ', '-');
+        const navLink = document.createElement('a');
+        navLink.href = `#${slug}`;
+        navLink.textContent = `${category.name} (${category.items.length})`;
+        categoryNav.appendChild(navLink);
+
+        const section = document.createElement('section');
+        section.className = 'category-section';
+        section.id = slug;
+
+        const heading = document.createElement('div');
+        heading.className = 'category-heading';
+        heading.innerHTML = `<h2>${category.name}</h2><span class="category-count">${category.items.length} designs</span>`;
+        section.appendChild(heading);
+
+        const shopGrid = document.createElement('div');
+        shopGrid.className = 'shop-grid';
+
+        category.items.forEach((number) => {
+          const card = document.createElement('a');
+          card.className = 'card';
+          card.href = `https://makerworld.com/en/models/${number}`;
+          card.target = '_blank';
+          card.rel = 'noreferrer';
+          card.setAttribute('aria-label', `See ${category.name} design details`);
+          card.innerHTML = `
+            <img src="m${number}.png" alt="${category.name} design" loading="lazy" />
+            <span class="badge">${category.name}</span>
+            <small>MakerWorld description</small>
+          `;
+          shopGrid.appendChild(card);
+        });
+
+        section.appendChild(shopGrid);
+        categoriesContainer.appendChild(section);
+      });
+    </script>
+  </body>
+</html>
