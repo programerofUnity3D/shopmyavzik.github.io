@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop My Avzik Models</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel-alt: #1f2937;
+        --card: #f8fafc;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --accent: #f59e0b;
+        --accent-strong: #f97316;
+        --border: rgba(148, 163, 184, 0.2);
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #020817 0%, var(--bg) 45%, #111827 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .header h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2.2rem, 4vw, 4rem);
+        letter-spacing: 0.04em;
+      }
+
+      .header p {
+        margin: 0 auto;
+        max-width: 760px;
+        font-size: 1.05rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .shop-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        display: block;
+        background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #0f172a;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 18px;
+        padding: 16px 16px 14px;
+        text-decoration: none;
+        box-shadow: var(--shadow);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        min-height: 140px;
+      }
+
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.4);
+      }
+
+      .badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        border-radius: 999px;
+        color: white;
+        padding: 6px 10px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 12px;
+      }
+
+      .model-name {
+        display: block;
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .card small {
+        display: block;
+        color: #334155;
+        margin-bottom: 14px;
+      }
+
+      .link-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #0f172a;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+
+      .link-btn:hover,
+      .link-btn:focus-visible {
+        background: #1e293b;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .shop-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Shop My Avzik Collection</h1>
+        <p>
+          83 designs from the MakerWorld collection. Each item links to its own description page.
+        </p>
+      </header>
+
+      <main class="shop-grid" id="shopGrid" aria-live="polite"></main>
+    </div>
+
+    <script>
+      const models = Array.from({ length: 83 }, (_, index) => {
+        const number = index + 1;
+        return {
+          id: String(number).padStart(2, '0'),
+          name: `Model ${String(number).padStart(2, '0')}`,
+          href: `https://makerworld.com/en/models/${number}`
+        };
+      });
+
+      const shopGrid = document.getElementById('shopGrid');
+
+      models.forEach((model) => {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = model.href;
+        card.target = '_blank';
+        card.rel = 'noreferrer';
+        card.setAttribute('aria-label', `Open ${model.name} details`);
+
+        card.innerHTML = `
+          <span class="badge">#${model.id}</span>
+          <span class="model-name">${model.name}</span>
+          <small>MakerWorld description</small>
+          <span class="link-btn">Open description</span>
+        `;
+
+        shopGrid.appendChild(card);
+      });
+    </script>
+  </body>
+</html>
