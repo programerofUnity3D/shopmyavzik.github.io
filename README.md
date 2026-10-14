@@ -1,1 +1,0 @@
-# shopmyavzik.github.io
